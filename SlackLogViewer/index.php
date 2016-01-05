@@ -35,6 +35,7 @@ require "./php/setLanguage.php";
 <option value="ja" id="jaOption">日本語</option>
 </select>
 </div>
+<div class="top1em">GitHub: <a href="https://github.com/cycentum/slovie">https://github.com/cycentum/slovie</a></div>
 <p id="copyright">&copy; 2015 Takuya KOUMURA.</p>
 </body>
 </html>

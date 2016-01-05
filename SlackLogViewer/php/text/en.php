@@ -8,7 +8,6 @@ $futurePlans="
 Future plans:<br/>
 Export to text files.<br/>
 Download attached files.<br/>
-Publish in GitHub.<br/>
 ";
 
 $language="Language";

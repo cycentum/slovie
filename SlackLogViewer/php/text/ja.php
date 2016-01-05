@@ -8,7 +8,6 @@ $futurePlans="
 更新予定:<br/>
 textファイルにエクスポート<br/>
 添付ファイルの保存<br/>
-GitHubで公開.<br/>
 ";
 
 $language="言語";
