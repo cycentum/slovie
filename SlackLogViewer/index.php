@@ -23,10 +23,11 @@ require "./php/setLanguage.php";
 <h1><a href="http://slovie.cycentum.com/">Slovie -Slack LOg VIEwer-</a></h1>
 <input type="file" onchange="fileSelected(this.files)" accept=".zip"/>
 <select name="channels" id="channels" class="hid" onChange="channelSelected()"></select>
+<span id="loadingMsg" class="hid"><?php echo $loading;?></span>
+<table id="contents" class="hid" border="1"></table>
 <p id="notice"><?php echo $notice;?></p>
 <div id="err" class="red"></div>
 <div id="msg"></div>
-<table id="contents" class="hid" border="1"></table>
 <div class="top1em"><?php echo $futurePlans;?></div>
 <div class="top1em">
 <?php echo $language;?>: <select name="langSelect" id="langSelect" onChange="languageSelected()">

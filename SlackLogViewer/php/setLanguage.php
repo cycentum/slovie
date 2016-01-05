@@ -27,4 +27,28 @@ else
 
 <script>
 var lang="<?php echo $lang;?>";
+
+var selectChannelText="<?php echo $selectChannel;?>";
+var reverseText="<?php echo $reverse;?>";
+var notAZipFileText="<?php echo $notAZipFile;?>";
+var notASlackLogFileText="<?php echo $notASlackLogFile;?>";
+
+<?php if($lang=="ja"):?>
+	function timeString(date)
+	{
+		var mo=date.toLocaleString("ja-jp", { month: "short" });
+		var hr=('0'+date.getHours()).slice(-2);
+		var mi=('0'+date.getMinutes()).slice(-2);
+		return date.getFullYear()+"年"+mo+date.getDate()+"日 "+hr+":"+mi;
+	}
+<?php else:?>
+	function timeString(date)
+	{
+		var mo=date.toLocaleString("en-us", { month: "short" })+".";
+		var hr=('0'+date.getHours()).slice(-2);
+		var mi=('0'+date.getMinutes()).slice(-2);
+		var da=date.getDate()+nth(date.getDate());
+		return hr+":"+mi+" "+da+" "+mo+" "+date.getFullYear();
+	}
+<?php endif;?>
 </script>
