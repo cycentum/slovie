@@ -18,12 +18,10 @@ limitations under the License.
 */
 
 function ordinal(num){
-	if(d>3 && d<21) return "th";
-	switch (d % 10)
-	{
-	case 1:  return "st";
-	case 2:  return "nd";
-	case 3:  return "rd";
-	default: return "th";
-	}
+	if(num>3 && num<21) return "th";
+	var last=num%10;
+	if(last==1) return "st";
+	if(last==2) return "nd";
+	if(last==3) return "rd";
+	return "th";
 }
