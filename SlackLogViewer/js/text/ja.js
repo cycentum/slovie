@@ -1,4 +1,3 @@
-<?php
 /*  
  * Copyright (c) 2016 Takuya KOUMURA.
  * http://slovie.cycentum.com/
@@ -17,29 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  */
-?>
 
-<?php
-$notice="
-Slovie does not collect any data from your log files. All processes are performed on your local apps. <br/>
-Tested on Chrome and FireFox.
-";
+var lang="ja";
 
-$futurePlans="
-Future plans:<br/>
-Export to text files.<br/>
-Download attached files.<br/>
-";
+var selectChannelText="チャネルを選択";
+var reverseText="反転";
+var notAZipFileText="zip形式のファイルですか？";
+var notASlackLogFileText="Slackのログファイルですか？";
 
-$language="Language";
-
-$selectChannel="Select channel";
-
-$reverse="Reverse";
-
-$notAZipFile="Not a zip file?";
-
-$notASlackLogFile="Not a Slack log file?";
-
-$loading="Loading...";
-?>
+function timeString(date)
+{
+	var mo=date.toLocaleString("ja-jp", { month: "short" });
+	var hr=('0'+date.getHours()).slice(-2);
+	var mi=('0'+date.getMinutes()).slice(-2);
+	return date.getFullYear()+"年"+mo+date.getDate()+"日 "+hr+":"+mi;
+}

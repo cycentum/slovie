@@ -38,6 +38,7 @@ require "./php/setLanguage.php";
 <script type="text/javascript" src="./js/content.js"></script>
 <script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/language.js"></script>
+<script type="text/javascript" src="./js/text/<?php echo $lang;?>.js"></script>
 <body>
 <h1><a href="http://slovie.cycentum.com/">Slovie -Slack LOg VIEwer-</a></h1>
 <input type="file" onchange="fileSelected(this.files)" accept=".zip"/>
@@ -55,6 +56,6 @@ require "./php/setLanguage.php";
 </select>
 </div>
 <div class="top1em">GitHub: <a href="https://github.com/cycentum/slovie">https://github.com/cycentum/slovie</a></div>
-<p id="copyright">&copy; 2015 Takuya KOUMURA.</p>
+<p id="copyright">&copy; 2015-2016 Takuya KOUMURA.</p>
 </body>
 </html>
