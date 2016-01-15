@@ -81,7 +81,7 @@ function convUserRegex(text){
 function setContentTable(){
 	sortTime(contents);
 	var revButton="<input type=\"button\" value=\""+reverseText+"\" onclick=\"timeRev()\" id=\"timeRev\"/>";
-	$("#contents").html(revButton+"<br/>");
+	$("#contentAll").html(revButton+"<br/><div id=\"contents\"></div>");
 	var imgSrc=[];
 	contents.forEach(function(cont){
 		var t=timeString(new Date(cont.ts*1000));
@@ -123,7 +123,7 @@ function setContentTable(){
 		$("#contents").append(c);
 	});
 	$("#loadingMsg").css("visibility", "hidden");
-	$("#contents").css("visibility", "visible");
+	$("#contentAll").css("visibility", "visible");
 	setTimeout(function(){
 		var i;
 		for(i=0; i<imgSrc.length; ++i){

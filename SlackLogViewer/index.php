@@ -45,7 +45,7 @@ require "./php/setLanguage.php";
 <input type="file" onchange="fileSelected(this.files)" accept=".zip"/>
 <select name="channels" id="channels" class="hid" onChange="channelSelected()"></select>
 <span id="loadingMsg" class="hid"><?php echo $loading;?></span>
-<div id="contents" class="hid top1em" border="1"></div>
+<div id="contentAll" class="hid top1em"></div>
 <p id="notice"><?php echo $notice;?></p>
 <div id="err" class="red"></div>
 <div id="msg"></div>
