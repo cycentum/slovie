@@ -112,8 +112,7 @@ pre.wrap{
 }
 
 .attachedImage{
-	/* height: 3em; */
-	max-height:5em;
+	max-height:3em;
 	max-width:100%;
 }
 
