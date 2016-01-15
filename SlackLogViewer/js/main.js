@@ -99,6 +99,11 @@ function setContentTable(){
 			else{
 				contentMain="<a href=\""+f.url+"\" target=\"_blank\"><div class=\"contentMain\"><pre>"+f.name+"</pre></div></a>";
 			}
+			
+			if(f.comment0!=null){
+				contentMain+="<div class=\"contentMain\"><pre>"+convUserRegex(f.comment0.comment)+"</pre></div>";
+			}
+			
 			sortTime(f.comments);
 			f.comments.forEach(function(com){
 				var u=userImgName(com.user);

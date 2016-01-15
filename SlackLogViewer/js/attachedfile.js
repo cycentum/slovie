@@ -22,8 +22,10 @@ function AttachedFile(obj){
 	this.name=obj.name;
 	this.mimetype=obj.mimetype;
 	this.comments=[];
-	
-	console.log(obj);
+	if(obj.initial_comment!=null){
+		this.comment0=new FileComment(obj.initial_comment);
+	}
+	//console.log(obj);
 }
 
 function addFileIfAbsent(obj, attachedFile){

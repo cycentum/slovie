@@ -27,9 +27,6 @@ function Content(obj, attachedFiles){
 		addFileIfAbsent(obj.file, attachedFiles);
 		var f=attachedFiles[url(obj.file)];
 		this.file=f;
-		if(obj.file.initial_comment!=null){
-			f.comments.push(new FileComment(obj.file.initial_comment));
-		}
 	}
 }
 
