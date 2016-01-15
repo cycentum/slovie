@@ -17,9 +17,30 @@ See the License for the specific language governing permissions and
 limitations under the License. 
 */
 
-function Content(obj){
-	//if((""+obj.subtype).startsWith("file")) console.log(obj);
+function Content(obj, attachedFiles){
 	this.user=obj.user;
 	this.text=obj.text;
 	this.ts=obj.ts;
+	this.subtype=obj.subtype;
+	
+	if(this.subtype=="file_share"){
+		addFileIfAbsent(obj.file, attachedFiles);
+		var f=attachedFiles[url(obj.file)];
+		this.file=f;
+		if(obj.file.initial_comment!=null){
+			f.comments.push(new FileComment(obj.file.initial_comment));
+		}
+	}
+}
+
+function addNewContent(obj, contents, attachedFiles){
+	if(obj.subtype=="file_comment"){
+		addFileIfAbsent(obj.file, attachedFiles);
+		var f=attachedFiles[url(obj.file)];
+		f.comments.push(new FileComment(obj.comment));
+	}
+	else{
+		var c=new Content(obj, attachedFiles);
+		contents.push(c);
+	}
 }

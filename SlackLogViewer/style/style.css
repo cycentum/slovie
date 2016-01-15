@@ -17,12 +17,12 @@ See the License for the specific language governing permissions and
 limitations under the License. 
 */
 
-td{
+/* td{
 	border:solid 1px;
 	padding: 2px;
 	font-family: sans-serif;
 	vertical-align: middle;
-}
+} */
 
 .pad0{
 	padding:0;
@@ -66,4 +66,46 @@ h1 a{
 
 .top1em{
 	margin-top: 1em;
+}
+
+/* #contents{
+	width:100%;
+	table-layout:fixed;
+	word-wrap:break-word;
+} */
+
+.content{
+	border: solid 1px #000000;
+}
+
+.userName{
+	font-family: monospace;
+	/* font-size: 80%; */
+	margin-left: 0.5em;
+}
+
+.userImg{
+	width: 1em;
+}
+
+.ts{
+	margin-left: 1em;
+	font-size: 70%;
+	color: #888888;
+}
+
+.contentMain{
+	font-family: sans-serif;
+	padding: 0.3em;
+	font-size: 120%;
+	line-height: 1.1em;
+	word-wrap:break-word;
+}
+
+.attachedImage{
+	height: 3em;
+}
+
+.comment{
+	margin-left: 1em;
 }

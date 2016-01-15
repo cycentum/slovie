@@ -20,7 +20,7 @@
 var lang="ja";
 
 var selectChannelText="チャネルを選択";
-var reverseText="反転";
+var reverseText="&uarr;&darr;";
 var notAZipFileText="zip形式のファイルですか？";
 var notASlackLogFileText="Slackのログファイルですか？";
 

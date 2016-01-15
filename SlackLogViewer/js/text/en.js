@@ -20,7 +20,7 @@
 var lang="en";
 
 var selectChannelText="Select channel";
-var reverseText="Reverse";
+var reverseText="&uarr;&darr;";
 var notAZipFileText="Not a zip file?";
 var notASlackLogFileText="Not a Slack log file?";
 

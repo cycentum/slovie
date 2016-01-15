@@ -20,7 +20,6 @@ limitations under the License.
 <?php
 require "./php/setLanguage.php";
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +30,13 @@ require "./php/setLanguage.php";
 <link rel="stylesheet" href="./style/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="./js/lib/jszip.js"></script>
+<!-- <script type="text/javascript" src="./js/lib/jquery_lazyload_min.js"></script> -->
 <script type="text/javascript" src="./js/main.js"></script>
 <script type="text/javascript" src="./js/io.js"></script>
 <script type="text/javascript" src="./js/user.js"></script>
 <script type="text/javascript" src="./js/channel.js"></script>
 <script type="text/javascript" src="./js/content.js"></script>
+<script type="text/javascript" src="./js/attachedfile.js"></script>
 <script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/language.js"></script>
 <script type="text/javascript" src="./js/text/<?php echo $lang;?>.js"></script>
@@ -44,7 +45,7 @@ require "./php/setLanguage.php";
 <input type="file" onchange="fileSelected(this.files)" accept=".zip"/>
 <select name="channels" id="channels" class="hid" onChange="channelSelected()"></select>
 <span id="loadingMsg" class="hid"><?php echo $loading;?></span>
-<table id="contents" class="hid" border="1"></table>
+<div id="contents" class="hid top1em" border="1"></div>
 <p id="notice"><?php echo $notice;?></p>
 <div id="err" class="red"></div>
 <div id="msg"></div>

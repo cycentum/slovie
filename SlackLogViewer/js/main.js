@@ -22,6 +22,7 @@ var channels;
 var channel;
 var contents;
 var timeDescending=true;
+var attachedFiles;
 
 function setUsers(userList){
 	users={};
@@ -54,14 +55,14 @@ function channelSelected(){
 	if(channelId.length==0) return;
 	channel=channels[channelId];
 	contents=[];
+	attachedFiles={};
 	$("#loadingMsg").css("visibility", "visible");
 	loadContent(channel);
 }
 
 function addContent(contentList){
 	contentList.forEach(function(obj){
-		var c=new Content(obj);
-		contents.push(c);
+		addNewContent(obj, contents, attachedFiles);
 	});
 }
 
@@ -78,35 +79,53 @@ function convUserRegex(text){
 }
 
 function setContentTable(){
-	contents.sort(function(c0, c1){
-		if(c0.ts<c1.ts) return -1*(timeDescending?-1:1);
-		if(c0.ts>c1.ts) return 1*(timeDescending?-1:1);
-		return 0;
-	});
+	sortTime(contents);
 	var revButton="<input type=\"button\" value=\""+reverseText+"\" onclick=\"timeRev()\" id=\"timeRev\"/>";
-	$("#contents").html("<tr><td></td><td></td><td></td><td>"+revButton+"</td></tr>");
+	$("#contents").html(revButton+"<br/>");
+	var imgSrc=[];
 	contents.forEach(function(cont){
-		var d=new Date(cont.ts*1000);
-		/*var mo=d.toLocaleString("en-us", { month: "short" })+".";
-		var hr=('0'+d.getHours()).slice(-2);
-		var mi=('0'+d.getMinutes()).slice(-2);
-		var da=d.getDate()+ordinal(d.getDate());*/
-		var un="";
-		var im="";
-		if(cont.user in users){
-			un=users[cont.user].name;
-			im="<img src=\""+users[cont.user].image_24+"\"/>";
+		var t=timeString(new Date(cont.ts*1000));
+		var u=userImgName(cont.user);
+		var contentMain;
+		if(cont.file!=null){
+			var f=cont.file;
+			var mt=f.mimetype;
+			if(mt.startsWith("image")&&mt!="image/tiff"){
+				var imgId=imgSrc.length;
+				contentMain="<a href=\""+f.url+"\" target=\"_blank\"><div class=\"contentMain\"><pre>"+f.name+"</pre></div>"+
+					"<div id=\"contentImg"+imgId+"\"></div></a>";
+				imgSrc[imgId]=f.url;
+			}
+			else{
+				contentMain="<a href=\""+f.url+"\" target=\"_blank\"><div class=\"contentMain\"><pre>"+f.name+"</pre></div></a>";
+			}
+			sortTime(f.comments);
+			f.comments.forEach(function(com){
+				var u=userImgName(com.user);
+				var ut="<div class=\"contentHeader\">"+u+"<span class=\"ts\">"+t+"</span></div>";
+				var cm="<div class=\"comment\">"+ut+
+					"<div class=\"contentMain\"><pre>"+convUserRegex(com.comment)+"</pre></div></div>";
+				contentMain+=cm;
+			});
 		}
-		var tr=$("<tr></tr>")
-			.append("<td class=\"pad0\">"+im+"</td>")
-			.append("<td>"+un+"</td>")
-			.append("<td><pre>"+convUserRegex(cont.text)+"</pre></td>")
-//			.append("<td>"+hr+":"+mi+" "+da+" "+mo+" "+d.getFullYear()+"</td>")
-			.append("<td>"+timeString(d)+"</td>")
-		$("#contents").append(tr);
+		else{
+			contentMain="<div class=\"contentMain\"><pre>"+convUserRegex(cont.text)+"</pre></div>";
+		}
+		var ut=$("<div class=\"contentHeader\">"+u+"<span class=\"ts\">"+t+"</span></div>");
+		c=$("<div class=\"content\"></div>")
+			.append(ut)
+			.append(contentMain);
+		$("#contents").append(c);
 	});
 	$("#loadingMsg").css("visibility", "hidden");
 	$("#contents").css("visibility", "visible");
+	setTimeout(function(){
+		var i;
+		for(i=0; i<imgSrc.length; ++i){
+			console.log();
+			$("#contentImg"+i).append("<img src=\""+imgSrc[i]+"\" class=\"attachedImage\"/>");
+		}
+	}, 10);
 }
 
 function timeRev(){
@@ -115,4 +134,22 @@ function timeRev(){
 	setTimeout(function(){
 		setContentTable();
 	}, 0);
+}
+
+function sortTime(list){
+	list.sort(function(c0, c1){
+		if(c0.ts<c1.ts) return -1*(timeDescending?-1:1);
+		if(c0.ts>c1.ts) return 1*(timeDescending?-1:1);
+		return 0;
+	});
+}
+
+function userImgName(userId){
+	var u="";
+	if(userId in users){
+		var un="<span class=\"userName\">"+users[userId].name+"</span>";
+		var im="<img class=\"userImg\" src=\""+users[userId].image_24+"\"/>";
+		u=im+un;
+	}
+	return u;
 }
