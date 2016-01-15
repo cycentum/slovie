@@ -28,6 +28,9 @@ function Content(obj, attachedFiles){
 		var f=attachedFiles[url(obj.file)];
 		this.file=f;
 	}
+	
+	//if(this.text.match("naver")||this.text.match("ツイート")||this.text.match("amazon")) console.log(obj);
+	if(this.text.match("twitter")) console.log(obj);
 }
 
 function addNewContent(obj, contents, attachedFiles){

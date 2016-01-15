@@ -25,7 +25,6 @@ function AttachedFile(obj){
 	if(obj.initial_comment!=null){
 		this.comment0=new FileComment(obj.initial_comment);
 	}
-	//console.log(obj);
 }
 
 function addFileIfAbsent(obj, attachedFile){

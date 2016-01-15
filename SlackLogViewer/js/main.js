@@ -67,15 +67,28 @@ function addContent(contentList){
 }
 
 function convUserRegex(text){
-	var reUser=/<@(.+?)\|(.+?)>/g;
-	text=text.replace(reUser, "$2");
+	var regUser=/@(.+?)\|(.+?)$/;
+	var regUrl=/(.+?)\|(.+?)$/;
 	
-	var reUrl=/<(.+?)\|(.+?)>/g;
-	text=text.replace(reUrl, "<a href=\"$1\">$2</a>");
-	
-//	text=text.replace("<", "&lt;");
-//	text=text.replace(">", "&gt;");
-	return text;
+	var reg=new RegExp(/<(.*)>/g);
+	var m;
+	var newText=text;
+	while(m=reg.exec(text)){
+		var mUser=regUser.exec(m[1]);
+		if(mUser!=null){
+			newText=newText.replace(m[0], mUser[2]);
+			continue;
+		}
+		
+		var mUrl=regUrl.exec(m[1]);
+		if(mUrl!=null){
+			newText=newText.replace(m[0], "<a href=\""+mUrl[1]+"\">"+mUrl[2]+"</a>");
+			continue;
+		}
+
+		newText=newText.replace(m[0], "<a href=\""+m[1]+"\">"+m[1]+"</a>");
+	}
+	return newText;
 }
 
 function setContentTable(){
@@ -92,8 +105,8 @@ function setContentTable(){
 			var mt=f.mimetype;
 			if(mt.startsWith("image")&&mt!="image/tiff"){
 				var imgId=imgSrc.length;
-				contentMain="<a href=\""+f.url+"\" target=\"_blank\"><div class=\"contentMain\"><pre>"+f.name+"</pre></div>"+
-					"<div id=\"contentImg"+imgId+"\"></div></a>";
+				contentMain="<a href=\""+f.url+"\" target=\"_blank\"><div class=\"contentMain\"><pre>"+f.name+"</pre>"+
+					"<div class=\"contentImg\" id=\"contentImg"+imgId+"\"></div></div></a>";
 				imgSrc[imgId]=f.url;
 			}
 			else{
