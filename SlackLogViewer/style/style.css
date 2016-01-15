@@ -119,3 +119,7 @@ pre.wrap{
 .comment{
 	margin-left: 1em;
 }
+
+.contentUser{
+	font-style: italic;
+}

@@ -76,17 +76,17 @@ function convUserRegex(text){
 	while(m=reg.exec(text)){
 		var mUser=regUser.exec(m[1]);
 		if(mUser!=null){
-			newText=newText.replace(m[0], mUser[2]);
+			newText=newText.replace(m[0], "<span class=\"contentUser\">"+mUser[2]+"</span>");
 			continue;
 		}
 		
 		var mUrl=regUrl.exec(m[1]);
 		if(mUrl!=null){
-			newText=newText.replace(m[0], "<a href=\""+mUrl[1]+"\">"+mUrl[2]+"</a>");
+			newText=newText.replace(m[0], "<a target=\"_blank\" href=\""+mUrl[1]+"\">"+mUrl[2]+"</a>");
 			continue;
 		}
 
-		newText=newText.replace(m[0], "<a href=\""+m[1]+"\">"+m[1]+"</a>");
+		newText=newText.replace(m[0], "<a target=\"_blank\" href=\""+m[1]+"\">"+m[1]+"</a>");
 	}
 	return newText;
 }
