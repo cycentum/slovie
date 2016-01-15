@@ -101,7 +101,7 @@ function setContentTable(){
 			}
 			
 			if(f.comment0!=null){
-				contentMain+="<div class=\"contentMain\"><pre>"+convUserRegex(f.comment0.comment)+"</pre></div>";
+				contentMain+="<div class=\"contentMain\">"+contentPre(f.comment0.comment)+"</div>";
 			}
 			
 			sortTime(f.comments);
@@ -109,12 +109,12 @@ function setContentTable(){
 				var u=userImgName(com.user);
 				var ut="<div class=\"contentHeader\">"+u+"<span class=\"ts\">"+t+"</span></div>";
 				var cm="<div class=\"comment\">"+ut+
-					"<div class=\"contentMain\"><pre>"+convUserRegex(com.comment)+"</pre></div></div>";
+					"<div class=\"contentMain\">"+contentPre(com.comment)+"</div></div>";
 				contentMain+=cm;
 			});
 		}
 		else{
-			contentMain="<div class=\"contentMain\"><pre>"+convUserRegex(cont.text)+"</pre></div>";
+			contentMain="<div class=\"contentMain\">"+contentPre(cont.text)+"</div>";
 		}
 		var ut=$("<div class=\"contentHeader\">"+u+"<span class=\"ts\">"+t+"</span></div>");
 		c=$("<div class=\"content\"></div>")
@@ -158,3 +158,8 @@ function userImgName(userId){
 	}
 	return u;
 }
+
+function contentPre(text){
+	return "<pre class=\"wrap\">"+convUserRegex(text)+"</pre>";
+}
+
