@@ -21,13 +21,13 @@
 
 <?php
 $notice="
-Slovie does not collect any data from your log files. All processes are performed on your local apps. <br/>
-Tested on Chrome and FireFox.
+Slovie does not collect any data from your log files. No need to worry about data leakage. <br/>
+Tested on Chrome and FireFox. Seems OK on Safari. Not working on IE.
 ";
 
 $futurePlans="
 Future plans:<br/>
-Export to text files.<br/>
+Editable headers in exported text files.<br/>
 Download attached files.<br/>
 ";
 
@@ -42,4 +42,18 @@ $notAZipFile="Not a zip file?";
 $notASlackLogFile="Not a Slack log file?";
 
 $loading="Loading...";
+
+$exporting="Exporting...";
+
+$export="Export";
+
+$filename="File name";
+
+$channelName="channel";
+
+$sortingOrder="Order";
+$newerToOlder="Newer&rarr;Older";
+$olderToNewer="Older&rarr;Newer";
+
+$exportCaution="[Caution] attached files are not exported.<br/>You will not be able to access them<br/>once they are removed from the Slack service.";
 ?>

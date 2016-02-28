@@ -23,6 +23,8 @@ var channel;
 var contents;
 var timeDescending=true;
 var attachedFiles;
+var exportRemaining=0;
+var usedUrlList=[];
 
 function setUsers(userList){
 	users={};
@@ -48,6 +50,12 @@ function setChannelSelect(){
 		$("#channels").append($("<option>").val(ch.id).text(ch.name));
 	}
 	$("#channels").css("visibility", "visible");
+	
+	$("#exportButton").css("visibility", "visible");
+	for(ci in channels){
+		var ch=channels[ci];
+		$("#exportChannel").append($("<option>").val(ch.id).text(ch.name));
+	}
 }
 
 function channelSelected(){
@@ -56,13 +64,19 @@ function channelSelected(){
 	channel=channels[channelId];
 	contents=[];
 	attachedFiles={};
-	$("#loadingMsg").css("visibility", "visible");
-	loadContent(channel);
+//	$("#loadingMsg").css("visibility", "visible");
+	$.blockUI({
+		message: $("#loadingBlockDialog"),
+		onBlock: function() { 
+			loadContent(channel, setContentTable, contents, attachedFiles);
+			$.unblockUI();
+		}
+	});
 }
 
-function addContent(contentList){
+function addContent(contentList, conts, attaFiles){
 	contentList.forEach(function(obj){
-		addNewContent(obj, contents, attachedFiles);
+		addNewContent(obj, conts, attaFiles);
 	});
 }
 
@@ -87,6 +101,31 @@ function convUserRegex(text){
 		}
 
 		newText=newText.replace(m[0], "<a target=\"_blank\" href=\""+m[1]+"\">"+m[1]+"</a>");
+	}
+	return newText;
+}
+
+function convUserRegexForExport(text){
+	var regUser=/@(.+?)\|(.+?)$/;
+	var regUrl=/(.+?)\|(.+?)$/;
+	
+	var reg=new RegExp(/<(.*)>/g);
+	var m;
+	var newText=text;
+	while(m=reg.exec(text)){
+		var mUser=regUser.exec(m[1]);
+		if(mUser!=null){
+			newText=newText.replace(m[0], mUser[2]);
+			continue;
+		}
+		
+		var mUrl=regUrl.exec(m[1]);
+		if(mUrl!=null){
+			newText=newText.replace(m[0], mUrl[2]+"("+mUrl[1]+")");
+			continue;
+		}
+
+		newText=newText.replace(m[0], m[1]);
 	}
 	return newText;
 }
@@ -135,7 +174,7 @@ function setContentTable(){
 			.append(contentMain);
 		$("#contents").append(c);
 	});
-	$("#loadingMsg").css("visibility", "hidden");
+//	$("#loadingMsg").css("visibility", "hidden");
 	$("#contentAll").css("visibility", "visible");
 	setTimeout(function(){
 		var i;
@@ -148,16 +187,21 @@ function setContentTable(){
 
 function timeRev(){
 	timeDescending=!timeDescending;
-	$("#loadingMsg").css("visibility", "visible");
-	setTimeout(function(){
-		setContentTable();
-	}, 0);
+//	$("#loadingMsg").css("visibility", "visible");
+	$.blockUI({
+		message: $("#loadingBlockDialog"),
+		onBlock: function() { 
+			setContentTable();
+			$.unblockUI();
+		}
+	});
 }
 
-function sortTime(list){
+function sortTime(list, descending){
+	if(descending==undefined){descending=timeDescending;}
 	list.sort(function(c0, c1){
-		if(c0.ts<c1.ts) return -1*(timeDescending?-1:1);
-		if(c0.ts>c1.ts) return 1*(timeDescending?-1:1);
+		if(c0.ts<c1.ts) return -1*(descending?-1:1);
+		if(c0.ts>c1.ts) return 1*(descending?-1:1);
 		return 0;
 	});
 }
@@ -172,7 +216,121 @@ function userImgName(userId){
 	return u;
 }
 
+function userName(userId){
+	var u="";
+	if(userId in users){
+		u=users[userId].name;
+	}
+	return u;
+}
+
 function contentPre(text){
 	return "<pre class=\"wrap\">"+convUserRegex(text)+"</pre>";
 }
 
+$(function(){
+	$('#exportDialog').dialog({
+		modal: true,
+		autoOpen: false,
+		height: "auto",
+		width: "auto"
+	});
+});
+
+function openExportDialog(){
+	var d=new Date();
+	var yr=""+d.getFullYear();
+	var mo=""+d.getMonth();
+	var da=('0'+d.getDate()).slice(-2);
+	var hr=('0'+d.getHours()).slice(-2);
+	var mi=('0'+d.getMinutes()).slice(-2);
+	var sc=('0'+d.getSeconds()).slice(-2);
+	var ms=('0'+d.getMilliseconds()).slice(-3);
+	$("#exportFilename").val("Slovie_export_"+yr+mo+da+hr+mi+sc+ms);
+	$("#exportMsg").empty();
+	$("#exportDialog").dialog("open");
+}
+
+function execExport(){
+	usedUrlList.forEach(function(obj){
+		URL.revokeObjectURL(obj);
+	});
+	usedUrlList=[];
+	$("#exportMsg").empty();
+	
+	var channelId=$("#exportChannel").val();
+	var filename=$("#exportFilename").val();
+	if(channelId==null || filename.length==0){
+		if(filename.length==0) $("#exportMsg").append(setFilenameError+"<br/>");
+		if(channelId==null) $("#exportMsg").append(selectChannelError+"<br/>");
+		$("#exportDialog").effect("shake");
+		return;
+	}
+	
+	var descending=$('input[name=exportDescending]:checked').val()=="1";
+	exportRemaining=channelId.length;
+	
+	$.blockUI({
+		message: $("#exportingBlockDialog"),
+		onBlock: function() { 
+			channelId.forEach(function(ci){
+				var conts=[];
+				var attaFiles={};
+				loadContent(channels[ci], function(){
+					exportChannel(conts, attaFiles, descending, filename+"_"+channels[ci].name+".txt");
+				}, conts, attaFiles);
+			});
+		}
+	});	
+}
+
+function exportChannel(conts, attaFiles, descending, filename){
+	sortTime(conts, descending);
+	text="";
+	conts.forEach(function(cont){
+		var t=timeString(new Date(cont.ts*1000));
+		var u=userName(cont.user);
+		var contentMain="", contentName="", comments="";
+		if(cont.file!=null){
+			var f=cont.file;
+			var mt=f.mimetype;
+			if(mt.startsWith("image")&&mt!="image/tiff"){
+				contentName="Image";
+				contentMain=f.name+"\r\n"+f.url;
+			}
+			else{
+				contentName="File";
+				contentMain=f.name+"\r\n"+f.url;
+			}
+			
+			if(f.comment0!=null){
+				comments+="\r\n["+u+"] "+t+" (Comment)\r\n"+convUserRegexForExport(f.comment0.comment)+"\r\n";
+			}
+			
+			sortTime(f.comments, descending);
+			f.comments.forEach(function(com){
+				var cu=userName(com.user);
+				var ct=timeString(new Date(com.ts*1000));
+				var cc=convUserRegex(com.comment);
+				comments+="\r\n["+cu+"] "+ct+" (Comment)\r\n"+cc+"\r\n";
+			});
+		}
+		else{
+			contentName="Text";
+			contentMain=convUserRegexForExport(cont.text);
+		}
+		text+="["+u+"] "+t+" ("+contentName+")\r\n"+contentMain+"\r\n"+comments+"\r\n--------------------\r\n\r\n";
+	});
+	saveToLocal(text, filename);
+	--exportRemaining;
+	if(exportRemaining==0){
+		var links=$("#exportLink")[0].childNodes;
+		for(li=0; li<links.length; ++li){
+			links[li].click();
+			usedUrlList.push(links[li].href);
+		}
+		$("#exportLink").empty();
+		$("#exportDialog").dialog("close");
+		$.unblockUI();
+	}
+}

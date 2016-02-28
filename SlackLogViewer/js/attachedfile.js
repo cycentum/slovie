@@ -27,7 +27,7 @@ function AttachedFile(obj){
 	}
 }
 
-function addFileIfAbsent(obj, attachedFile){
+function addFileIfAbsent(obj, attachedFiles){
 	if(!(url(obj) in attachedFiles)){
 		var f=new AttachedFile(obj);
 		attachedFiles[f.url]=f;	

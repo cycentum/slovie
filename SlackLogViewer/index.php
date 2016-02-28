@@ -29,7 +29,10 @@ require "./php/setLanguage.php";
 <link rel="stylesheet" href="./style/lib/html5reset-1.6.1.css" />
 <link rel="stylesheet" href="./style/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 <script type="text/javascript" src="./js/lib/jszip.js"></script>
+<script type="text/javascript" src="./js/lib/jquery.blockUI.min.js"></script>
 <!-- <script type="text/javascript" src="./js/lib/jquery_lazyload_min.js"></script> -->
 <script type="text/javascript" src="./js/main.js"></script>
 <script type="text/javascript" src="./js/io.js"></script>
@@ -44,6 +47,7 @@ require "./php/setLanguage.php";
 <h1><a href="http://slovie.cycentum.com/">Slovie -Slack LOg VIEwer-</a></h1>
 <input type="file" onchange="fileSelected(this.files)" accept=".zip"/>
 <select name="channels" id="channels" class="hid" onChange="channelSelected()"></select>
+<input type="button" class="hid" id="exportButton" value="<?php echo $export;?>" onclick="openExportDialog()"/>
 <span id="loadingMsg" class="hid"><?php echo $loading;?></span>
 <div id="contentAll" class="hid top1em"></div>
 <p id="notice"><?php echo $notice;?></p>
@@ -58,5 +62,32 @@ require "./php/setLanguage.php";
 </div>
 <div class="top1em">GitHub: <a href="https://github.com/cycentum/slovie">https://github.com/cycentum/slovie</a></div>
 <p id="copyright">&copy; 2015-2016 Takuya KOUMURA.</p>
+
+
+<div id="exportDialog" title="<?php echo $export;?>">
+	<div class="top1em">
+		<?php echo $selectChannel;?>: <select id="exportChannel" name="exportChannel" size="4" multiple></select><br/>
+	</div>
+	<div class="top1em">
+		<?php echo $filename;?>: <input type="text" value="" id="exportFilename" size="40"/>_<?php echo $channelName;?>.txt
+	</div>
+	<div class="top1em"> 
+		<?php echo $sortingOrder;?>: 
+		<label><input type="radio" name="exportDescending" value="1" checked/><?php echo $newerToOlder;?></label>
+		<label><input type="radio" name="exportDescending" value="0"/><?php echo $olderToNewer;?></label>
+	</div>
+	<input type="button" value="<?php echo $export;?>" onClick="execExport()">
+	<div id="exportMsg" class="red"></div>
+	<div class="top1em" style="line-height:120%"><?php echo $exportCaution;?></div>
+<!-- 	<a href="" download="" id="exportLink" class="hid"></a> -->
+	<div id="exportLink" class="hid"></div>
+</div>
+
+<div id="loadingBlockDialog" class="blockDialog" style="display:none">
+	<?php echo $loading;?>
+</div>
+<div id="exportingBlockDialog" class="blockDialog" style="display:none">
+	<?php echo $exporting;?>
+</div>
 </body>
 </html>

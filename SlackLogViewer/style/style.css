@@ -123,3 +123,12 @@ pre.wrap{
 .contentUser{
 	font-style: italic;
 }
+
+#exportDialog{
+	line-height: 200%;
+}
+
+.blockDialog{
+	padding: 1em;
+	font-size: 200%;
+}

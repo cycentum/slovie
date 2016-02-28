@@ -52,7 +52,7 @@ function loadUserChannel(){
 	reader.readAsArrayBuffer(zipFile);
 }
 
-function loadContent(channel){
+function loadContent(channel, func, contents, attachedFiles){
 	var reader=new FileReader();
 	reader.onload=function(event){
 		var zip=new JSZip(this.result);
@@ -61,9 +61,20 @@ function loadContent(channel){
 			var f=zip.files[fn];
 			if(f.dir) continue;
 			var c=zip.file(fn);
-			addContent(JSON.parse(c.asText()));
+			addContent(JSON.parse(c.asText()), contents, attachedFiles);
 		}
-		setContentTable();
+//		setContentTable();
+		func();
 	};
 	reader.readAsArrayBuffer(zipFile);
+}
+
+function saveToLocal(text, filename){
+	var blob = new Blob([text], {type: "text/plain"});
+	if(window.navigator.msSaveBlob){ // ie
+		window.navigator.msSaveBlob(blob, filename);
+	}
+	else{
+		$("#exportLink").append("<a href=\""+URL.createObjectURL(blob)+"\" download=\""+filename+"\" target=\"_blank\"></a>");
+	}
 }

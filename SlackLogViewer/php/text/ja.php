@@ -21,13 +21,13 @@
 
 <?php
 $notice="
-Slovieはログデータを一切アップロードしません。ログデータは全てローカル端末で処理されます。</br>
-ChromeとFirefoxで動作確認済み。
+Slovieはログデータを一切アップロードしません。データが外部に漏れる心配はありません。</br>
+ChromeとFirefoxで動作確認済み。Safariでも動きそう。IEでは動きません。
 ";
 
 $futurePlans="
 更新予定:<br/>
-textファイルにエクスポート<br/>
+textファイルのヘッダー編集機能<br/>
 添付ファイルの保存<br/>
 ";
 
@@ -42,4 +42,18 @@ $notAZipFile="zip形式のファイルですか？";
 $notASlackLogFile="Slackのログファイルですか？";
 
 $loading="ロード中...";
+
+$exporting="エクスポート中...";
+
+$export="エクスポート";
+
+$filename="ファイル名";
+
+$channelName="チャネル名";
+
+$sortingOrder="並び順";
+$newerToOlder="新&rarr;旧";
+$olderToNewer="旧&rarr;新";
+
+$exportCaution="[注意] 添付ファイルはエクスポートされません。<br/>スラックから添付ファイルが消去されるとアクセスできなくなります。";
 ?>

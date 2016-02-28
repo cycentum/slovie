@@ -23,6 +23,8 @@ var selectChannelText="チャネルを選択";
 var reverseText="&uarr;&darr;";
 var notAZipFileText="zip形式のファイルですか？";
 var notASlackLogFileText="Slackのログファイルですか？";
+var setFilenameError="ファイル名を入力してください。";
+var selectChannelError="チャネルを選択してください。";
 
 function timeString(date)
 {
