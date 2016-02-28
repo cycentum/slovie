@@ -2,9 +2,10 @@
 
 Slovie is an easy-to-use viewer of  Slack exported log files.
 Try it out if you have exported Slack data :)
+
 The program is available at http://slovie.cycentum.com/.
 
-Major functions:
+### Major functions
  - Imports an exported zip file and show its contents in an instant.
  - Runs on a standard web browsers.
  - Secure. No data uploading.
