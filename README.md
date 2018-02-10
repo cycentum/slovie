@@ -13,8 +13,8 @@ The program is available at http://slovie.cycentum.com/.
 
 If you find some bugs, please let me know :)
 
-##License
+### License
 Slovie is licensed under the Apache License, Version 2.0.
 
--
+---
 Copyright &copy; 2016 Takuya KOUMURA
